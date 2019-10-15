@@ -21,10 +21,19 @@ function getDeviceId(id){
             deviceId = "22acf240-6252-11e8-b8df-59c2cc02320f";  //c1
             break;
         case 'uid4':
-            deviceId = "21b94370-6252-11e8-b8df-59c2cc02320f";  //wenshi
+            deviceId = "1bfca680-9c75-11e9-9dcf-b55ae51a103e"//"21b94370-6252-11e8-b8df-59c2cc02320f";  //wenshi
             break;
         case 'uid5':
             deviceId = "22649ea0-6252-11e8-b8df-59c2cc02320f";   //c2  不可用
+            break;
+        case 'uid6':
+            deviceId = "7b99a6f0-90d2-11e9-b21a-2fa071b4c282";   //烟感
+            break;
+        case 'uid7':
+            deviceId = "311057b0-90d1-11e9-b21a-2fa071b4c282";   //水浸
+            break;
+        case 'uid8':
+            deviceId = "f6289960-3b02-11e9-8fc2-67fbc94ac784";   //红外
             break;
         default:
             deviceId = null;
@@ -55,6 +64,26 @@ module.exports = {
         var yaoce = data.data
 
         return yaoce;
+    },
+
+    fetchLineData: async (id,dataType,access_token)=>{
+        var timestamp = Date.parse(new Date());
+        var startTs=(timestamp / 1000 - 24 * 60 * 60 ) * 1000;
+        var endTs=timestamp;
+        var deviceId = getDeviceId(id);
+        try{
+            var data = await instance.get('/data/alldata/'+deviceId+'?key='+dataType+'&startTs='+startTs+'&endTs='+endTs+'&limit=1000'+'&interval=86400'+'&aggregation=AVG',{
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                   'Content-Type': 'application/json',
+                },
+            });
+            var yaoce = data.data;
+            return yaoce;
+        }
+        catch(e){
+            throw e;
+        }
     },
 
     devicesPaging: async (tid,limit,idOffset,textOffset,access_token) => {
@@ -158,6 +187,4 @@ module.exports = {
         }
 
     }
-    
-
 }

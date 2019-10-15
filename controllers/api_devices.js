@@ -29,7 +29,41 @@ module.exports = {
             res: res
         });
     },
+    'GET /api/3d815/gettemdata/:id':async (ctx,next) =>{     //温度数据
+        var id = ctx.params.id;
+        var access_token = ctx.cookies.get('access_token');
+        var res = await devices.fetchLineData(id,'temperature',access_token);//uid4
+        ctx.rest({
+            res: res
+        });
+    },
+    'GET /api/3d815/gethumidata/:id':async (ctx,next) =>{     //湿度数据
+        var id = ctx.params.id;
+        var access_token = ctx.cookies.get('access_token');
+        var res = await devices.fetchLineData(id,'humidity',access_token);//uid4
 
+        ctx.rest({
+            res: res
+        });
+    },
+    'GET /api/3d815/getalarmdata/:id':async (ctx,next) =>{     //其他传感器数据
+        var id = ctx.params.id;
+        var access_token = ctx.cookies.get('access_token');
+        var res = await devices.fetchLineData(id,'alarm',access_token);
+
+        ctx.rest({
+            res: res
+        });
+    },
+    'GET /api/3d815/getsurpervisiondata/:id':async (ctx,next) =>{     //其他传感器数据
+        var id = ctx.params.id;
+        var access_token = ctx.cookies.get('access_token');
+        var res = await devices.fetchLineData(id,'surpervision',access_token);
+
+        ctx.rest({
+            res: res
+        });
+    },
     'GET /api/3d815/getDeviceInfo/:id': async (ctx, next) => {    
         var id = ctx.params.id;
 

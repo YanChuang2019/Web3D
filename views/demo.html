@@ -44,8 +44,8 @@
 
     <!-- echarts  历史数据-->
     <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.js"></script>
-
-        
+    <script  src="../static/js/echarts.min.js"></script>
+    <script  src="../static/assets/js/dashboard.js"></script>
 </head>
 
 <body ng-controller="mainCtrl">
@@ -54,6 +54,14 @@
         <script>
             $("#_deviceDetail").load("static/assets/html/deviceDetail.html");
         </script>
+    </div>
+    <!-- dashboard -->
+    <div class="dashboard" style="height: 0px">
+        <div id="temGauge" style="width: 18%;height:300px;display: inline-block;"></div>
+        <div id="humiGauge" style="width: 18%;height:300px;display: inline-block;"></div>
+        <div id="temHumiLine" style="width:18%;height:300px;display: inline-block;"></div>
+        <div id="temHumiErrorLine" style="width:18%;height:300px;display: inline-block;"></div>
+		<div id="otherErrorLine" style="width:18%;height:300px;display: inline-block;"></div>
     </div>
     <div id="container"></div>
     <div id="coords"></div>
