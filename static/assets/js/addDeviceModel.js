@@ -28,6 +28,8 @@ class AddModel{
             mesh.deviceName = name;
             mesh.deviceId = deviceId;    //真实设备Id
             mesh.label = label;
+            mesh.isAlarm = false;
+            mesh.alarmType = "";
             // var mesh1 = scene.getChildByName("scene");
             // mesh1.material = new THREE.MeshPhongMaterial( { ambient: 0x050505, color: 0x0033ff, specular: 0x555555, shininess: 30 } );
             scene.add(mesh);//在场景中添加模型
