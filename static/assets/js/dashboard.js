@@ -3,7 +3,7 @@ window.humiHistory=[];
 const MAX={'temperature':49,'humidity':50};
 const MIN={'temperature':-20,'humidity':10};
 document.onreadystatechange = function(){
-    var websocket = new WebSocket("ws:/10.108.216.46:8800/ws");
+    var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");
     var temfun=drawGauge('temGauge','温湿度传感器','温度gauge',0,'温度','℃');
     var humifun=drawGauge('humiGauge','温湿度传感器','湿度gauge',0,'湿度','%');
     var temhumifun=drawLine('uid4');
@@ -23,18 +23,12 @@ document.onreadystatechange = function(){
                 othererrorfun(msgType,jsonObject.timestamp);
             }
         }
-        else if(msgType==='temperature'){
-            temfun(parseFloat(jsonObject.temperature).toFixed(2),'温度');
-            temhumifun(parseFloat(jsonObject.temperature).toFixed(2),'',jsonObject.timestamp);
-            if(parseFloat(jsonObject.temperature).toFixed(2)>MAX['temperature']||parseFloat(jsonObject.temperature).toFixed(2)<MIN['temperature']){
-                temhumierrorfun(parseFloat(jsonObject.temperature).toFixed(2),'',jsonObject.timestamp);
-            }
-        }
         else if(msgType==='humidity'){
             humifun(parseFloat(jsonObject.humidity).toFixed(2),'湿度');
-            temhumifun('',parseFloat(jsonObject.humidity).toFixed(2),jsonObject.timestamp);
-            if(parseFloat(jsonObject.humidity).toFixed(2)>MAX['humidity']||parseFloat(jsonObject.humidity).toFixed(2)<MIN['humidity']){
-                temhumierrorfun('',parseFloat(jsonObject.humidity).toFixed(2),jsonObject.timestamp);
+            temfun(parseFloat(jsonObject.temperature).toFixed(2),'温度');
+            temhumifun(parseFloat(jsonObject.temperature).toFixed(2),parseFloat(jsonObject.humidity).toFixed(2),jsonObject.timestamp);
+            if(parseFloat(jsonObject.humidity).toFixed(2)>MAX['humidity']||parseFloat(jsonObject.humidity).toFixed(2)<MIN['humidity']||parseFloat(jsonObject.temperature).toFixed(2)>MAX['temperature']||parseFloat(jsonObject.temperature).toFixed(2)<MIN['temperature']){
+                temhumierrorfun(parseFloat(jsonObject.temperature).toFixed(2),parseFloat(jsonObject.humidity).toFixed(2),jsonObject.timestamp);
             }
         }
     }
@@ -267,6 +261,18 @@ function drawLine(id) {
             seriesDataA.push(parseFloat(temValue).toFixed(2));
             myTemHumiLineOption.series[0].data=seriesDataA;
         }
+        else{
+            if(seriesDataB.length>=100){
+                seriesDataB.shift();
+            }
+            seriesDataB.push(parseFloat(humiValue).toFixed(2));
+            myTemHumiLineOption.series[1].data=seriesDataB;
+            if(seriesDataA.length>=100){
+                seriesDataA.shift();
+            }
+            seriesDataA.push(parseFloat(temValue).toFixed(2));
+            myTemHumiLineOption.series[0].data=seriesDataA;
+        }
         myTemHumiLine.setOption(myTemHumiLineOption);
     }
     return setValue;
@@ -424,11 +430,21 @@ function drawTemHumiErrorLine(id){
                 seriesDataB.shift();
             }
             seriesDataB.push(parseFloat(humiValue).toFixed(2));
-            console.log('myOption.series[1]');
-            console.log(temHumiErrorOption.series);
             temHumiErrorOption.series[1].data=seriesDataB;
         }
         else if(humiValue===''){
+            if(seriesDataA.length>=100){
+                seriesDataA.shift();
+            }
+            seriesDataA.push(parseFloat(temValue).toFixed(2));
+            temHumiErrorOption.series[0].data=seriesDataA;
+        }
+        else{
+            if(seriesDataB.length>=100){
+                seriesDataB.shift();
+            }
+            seriesDataB.push(parseFloat(humiValue).toFixed(2));
+            temHumiErrorOption.series[1].data=seriesDataB;
             if(seriesDataA.length>=100){
                 seriesDataA.shift();
             }
