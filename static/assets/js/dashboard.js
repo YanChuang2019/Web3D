@@ -239,9 +239,10 @@ function drawLine(id) {
     };
     myTemHumiLine.setOption(myTemHumiLineOption);
     function setValue(temValue,humiValue,timestamp){
-        console.log("myOption.xAxis[0].data");
-        console.log(myTemHumiLineOption['xAxis'][0]['data']);
-        console.log(formatData(timestamp));
+        var stime =new Date(xData[xData.length-1]).getTime();
+        var etime = new Date(timestamp).getTime();
+        var usedTime = etime - stime;
+        if(usedTime/1000>200){
         if(xData.length>=100){
             xData.shift();
         }
@@ -273,7 +274,7 @@ function drawLine(id) {
             seriesDataA.push(parseFloat(temValue).toFixed(2));
             myTemHumiLineOption.series[0].data=seriesDataA;
         }
-        myTemHumiLine.setOption(myTemHumiLineOption);
+        myTemHumiLine.setOption(myTemHumiLineOption);}
     }
     return setValue;
 }
@@ -743,5 +744,5 @@ function formatData(seconds){
         var second = date.getSeconds();
         minute = minute < 10 ? ('0' + minute) : minute;
         second = second < 10 ? ('0' + second) : second;
-        return y+'-'+m+'-'+d+' '+' '+h+':'+minute+':'+second;
+        return y+'-'+m+'-'+d+' '+h+':'+minute+':'+second;
 }
