@@ -6,10 +6,10 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
     
     if (!Detector.webgl) Detector.addGetWebGLMessage();
        var addmodel = new AddModel();//用来添加模型
-        
+         
         var camera, scene, renderer,
             bulbLight, bulbMat, ambientLight,
-            object, loader, stats,firstScene,orbitctr;
+            object, loader, stats,firstScene,orbitctr, allPipeModels = [];
         THREE.DRACOLoader.setDecoderPath('../draco_decoder.js');
         THREE.DRACOLoader.setDecoderConfig( { type: 'js' } );
         THREE.DRACOLoader.getDecoderModule();
@@ -134,13 +134,11 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                     url: '/api/sites/' + siteId,
                     type: 'GET',
                     async:false,
-                    success: function(res){//对获取到的当前站点下的所有模型进行处理
+                    success:function(res){//对获取到的当前站点下的所有模型进行处理
                         _sceneLoca =  res.sites[0].sceneModelLoca;//场景地点
                         _sceneUrl = res.sites[0].sceneUrl;//场景的文件路径
                         siteName = res.sites[0].name;//站点的名字
-                        
                         addmodel.addAllModel(siteId);    //加载场景ID133的所有设备模型
-                        
                     },
                     error: function(e){
                         $.alert('场景模型初始位置信息获取失败！请刷新重试'+ e.message);
@@ -151,50 +149,10 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
             } 
             
         }
-        initScene();
-    
-        var showPipelineType = function(){
-            if(allLabelDiv.length === 0){
-                objects.forEach(function(e) {
-                            
-                    let position = e.position.clone();
-                    let result = screenCoord(position);
-                    let top = result.top + 5 + "px";
-                    let left = result.left + 5 + "px";
-                    var tempdiv = $("#tip").clone().css({
-                        left: left,
-                        top: top,
-                        display:"none"
-                    });
-                    let cont ;
-                    if(e.deviceName === 'connector2'){
-                        cont = "管道类型:水管";
-                        tempdiv.html("<p>" + cont + "</p>");
-                        e.tipdiv = tempdiv;
-                        allLabelDiv.push(tempdiv);
-                    }else if(e.deviceName === 'connector6'){
-                        cont = "管道类型:烟管"
-                        tempdiv.html("<p>" + cont + "</p>");
-                        e.tipdiv = tempdiv;
-                        allLabelDiv.push(tempdiv);
-                    }else{
-                        cont = "设备名称:"+e.deviceName+"<br>设备ID:"+e.deviceId+"<br>标签:"+e.label;
-                        tempdiv.html("<p>" + cont + "</p>");
-                        e.tipdiv = tempdiv;
-                        //allLabelDiv.push(tempdiv);
-                    }
-                    $("body").append(tempdiv);
-                });
-            }
-            allLabelDiv.forEach(function(e){
-                e.css({
-                    display:'block'
-                });
-            });
-        }
+        
     
         if(_sceneUrl === "" || _sceneUrl === null || _sceneUrl === undefined){
-            $.alert("您未上传任何场景模型，请返回地图界面进行上传。");
+            //$.alert("您未上传任何场景模型，请返回地图界面进行上传。");
         }
     
         if(_sceneLoca === null || _sceneLoca === "" || _sceneLoca === undefined){
@@ -266,7 +224,6 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                             e.tipdiv = tempdiv;
                             //allLabelDiv.push(tempdiv);
                         }
-                        console.log(e);
                         $("body").append(tempdiv);
                     });
                 }
@@ -516,8 +473,14 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
         var craycaster = new THREE.Raycaster();    //用于坐标的拾取
         var mouse = new THREE.Vector2();
         var clock = new THREE.Clock();
-        init();//场景的初始化
-        animate();//循环渲染
+        // S
+        async function initial(){
+            await init();
+            await initScene();
+            await render();
+            await animate();
+        }
+        initial();
         //tips and show tips
         var ToolTip = {//用来显示数据的tips
             init: function() {//tips的初始化
@@ -580,45 +543,6 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
             floorMesh.rotation.x = -Math.PI / 2.0;
             scene.add(floorMesh);//为场景添加地板
     
-            //==============新地板测试======================
-                // var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
-                //         floorGeometry.rotateX( - Math.PI / 2 );
-    
-                //         // vertex displacement
-    
-                //         var position = floorGeometry.attributes.position;
-    
-                //         for ( var i = 0; i < position.count; i ++ ) {
-    
-                //             vertex.fromBufferAttribute( position, i );
-    
-                //             vertex.x += Math.random() * 20 - 10;
-                //             vertex.y += Math.random() * 2;
-                //             vertex.z += Math.random() * 20 - 10;
-    
-                //             position.setXYZ( i, vertex.x, vertex.y, vertex.z );
-    
-                //         }
-    
-                //         floorGeometry = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
-    
-                //         count = floorGeometry.attributes.position.count;
-                //         var colors = [];
-    
-                //         for ( var i = 0; i < count; i ++ ) {
-    
-                //             color.setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-                //             colors.push( color.r, color.g, color.b );
-    
-                //         }
-    
-                //         floorGeometry.addAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
-    
-                //         floorMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
-    
-                //         var floor = new THREE.Mesh( floorGeometry, floorMaterial );
-                //         scene.add( floor );
-            //===========================endtest=======================
     
              //点光源设置
             var bulbGeometry = new THREE.SphereGeometry(0.02, 16, 8);
@@ -699,13 +623,11 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                     console.log(process_loading);
                     if(percentComplete == 100){
                         document.getElementById('Loading').style.display = 'none';
-                        showPipelineType();
                     }
                 }
             };
             var onError = function(xhr) {
-                $.alert("找不到该站点模型文件\n  错误信息:"+xhr.target.statusText);
-                
+                //$.alert("找不到该站点模型文件\n  错误信息:"+xhr.target.statusText);        
             };
     
             //原路径：static/gis_815/models/mydrc/lab_524drc.drc
@@ -730,19 +652,15 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                 mesh.position.z = 100;
                 mesh.material.transparent = true;//将mesh的材质的透明度设置为真
                 mesh.material.opacity = params.opacity;//设置材质的透明度
-                // console.log(mesh.getWorldPosition());
                 firstScene = mesh;
                 mesh.geometry.colorsNeedUpdate = true;
-                //scene.add( mesh );//Mesh添加到场景中
                 var material = new THREE.MeshPhongMaterial({
                     color: 0xFF0000,
                     specular: 0x111111,
                     shininess: 200
                 });
-                // alert("lalala")
                 // Release the cached decoder module.
                 THREE.DRACOLoader.releaseDecoderModule();
-                //loader.load("/public/upload/devices/pipeline")
                 },onProgress, onError);
     
             //
@@ -786,7 +704,6 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
             gui.add(newcontrols,'☆返回首页');
             gui.add(newcontrols,'✔保存场景设置');
             gui.open();
-            showPipelineType();
         }/////////////////////////////////////////////
         var baseColor = 0xFF0000;
         var foundColor = 0x12C0E3;
@@ -794,17 +711,14 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
         var intersected;
         var downIntersected;
     
-    
-            //fun2cgq('sensor_center.stl',-10.37, 6.90, 15.16,"开关1开_uid1_on");
-            //fun2cgq('sensor_center.stl',-10.37, 6.90, 14.16,"开关1关_uid1_off");
-            //fun2cgq('sensor_center.stl',0.0, 4.228, -6.5,"窗帘1开_uid3_on");
-            //fun2cgq('sensor_center.stl',-1.0, 4.228, -6.5,"窗帘1关_uid3_off");
-            //fun2cgq('sensor_center.stl',0.0,4.96,18,"温湿2_uid4");
             
             
-            
-            
-        
+        var colors = ['red', 'green', 'blue', 'yellow'], index = 0;
+        var getColor = function () {
+        (index >= colors.length) && (index = 0);
+        return colors[index++];
+        };
+                    
         websocket.onmessage = function(e){//websocket用来根据传来的数据修改模型的特征
             //alert("接收到消息：" + e.data);
             var jsonObject = JSON.parse(e.data);
@@ -812,7 +726,68 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
             var deviceLocation = jsonObject.location;
             var deviceState = jsonObject.state;
             var obj = {type:msgType,location:deviceLocation,state:deviceState};
-            deviceMap.set(obj.location,obj);
+            var mark = 0;
+            objects.forEach(function(e){
+                if(e.deviceName == deviceLocation){
+                    mark = 1;
+                }
+            })
+            if(mark == 1){
+                if(msgType == "switch"){
+                    var cont;
+                    mesh = scene.getObjectByName(deviceLocation);
+                    if(deviceState == "1"){
+                        cont = "开关:"+deviceLocation+"打开";
+                        materialTest = new THREE.MeshPhongMaterial({ 
+                            // ambient: 0x050505, 
+                            color: 0x00ff00, 
+                            specular: 0x111111, 
+                            shininess: 200
+                        });
+                    }else{
+                        cont = "开关:"+deviceLocation+"关闭";
+                        materialTest = new THREE.MeshPhongMaterial({ 
+                            // ambient: 0x050505, 
+                            color: 0xFF0000, 
+                            specular: 0x111111, 
+                            shininess: 200 
+                        });
+                    }
+                    mesh.material = materialTest;
+                    new jBox('Notice', {
+                        attributes: {
+                          x: 'right',
+                          y: 'bottom'
+                        },
+                        stack: false,
+                        animation: {
+                          open: 'tada',
+                          close: 'zoomIn'
+                        },
+                        color: getColor(),
+                        title: '站点：' + siteId,
+                        content: cont
+                      });
+                }else{
+                    deviceMap.set(obj.location,obj);
+                    if(deviceState == "1" ){
+                        new jBox('Notice', {
+                            attributes: {
+                              x: 'right',
+                              y: 'bottom'
+                            },
+                            stack: false,
+                            animation: {
+                              open: 'tada',
+                              close: 'zoomIn'
+                            },
+                            color: getColor(),
+                            title: '站点：' + siteId + '异常',
+                            content: "异常设备:"+deviceLocation+"\n报警类型:" + msgType + '.'
+                          });
+                    }
+                }
+            }
         }
     
         function onDocumentDbclick(event){
@@ -949,30 +924,11 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                     var label = intersected.label;
                     var isAlarm = intersected.isAlarm;
                     var alarmType = intersected.alarmType;
-                  
-                //    if(nameUid[0].indexOf("开关")!=-1){
-                //        ToolTip.showtip(event, nameUid[0]+":");
-                //    }else if(nameUid[0].indexOf("窗帘")!=-1){
-                //        ToolTip.showtip(event, nameUid[0]+":");
-                //    }
-                //     else if(nameUid[0].indexOf("温湿")!=-1){
-                //        getAjax("/api/3d815/getdata/"+nameUid[1], function(response) {
-                //            var data = JSON.parse(response);
-                //            var temp = (parseFloat((data.res[1].value))/100).toFixed(2);
-                //            var humidity = parseFloat(data.res[0].value).toFixed(2);
-                //            console.log(temp);
-                //            ToolTip.showtip(event, nameUid[0]+"<br>temp:"+temp+"℃<br>humitity:"+humidity);
-                //        });
-                //    }else {
-                //     ToolTip.showtip(event, "设备名称:"+deviceName+"<br>设备ID:"+deviceId+"<br>标签:"+label);
-                //     // $('#showDeviceInfo').css({'display':''});
-                    
-                //    }
-                   if(isAlarm){
-                        ToolTip.showtip(event,"设备名称:"+deviceName+"<br>报警类型:" + alarmType);
-                   }else{
-                        ToolTip.showtip(event, "设备名称:"+deviceName+"<br>设备ID:"+deviceId+"<br>标签:"+label);
-                   }
+                    if(isAlarm){
+                            ToolTip.showtip(event,"设备名称:"+deviceName+"<br>报警类型:" + alarmType);
+                    }else{
+                            ToolTip.showtip(event, "设备名称:"+deviceName+"<br>设备ID:"+deviceId+"<br>标签:"+label);
+                    }
     
                 }
     
@@ -1032,14 +988,15 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                 var mesh;
                 var materialTest;
                 var alarmType;
-                mesh = scene.getChildByName(value.location);
-                if(value.state == '1'){
+                mesh = scene.getObjectByName(value.location);
+                if(value.state == '1' ){
                     materialTest = new THREE.MeshPhongMaterial({ 
-                        ambient: 0x050505, 
+                        // ambient: 0x050505, 
                         color: 0xffffff*Math.random(), 
                         specular: 0x555555, 
                         shininess: 30 
                     });
+                    
                     mesh.isAlarm = true;
                     if(value.type == "smoke"){
                         alarmType = "烟雾";
@@ -1049,6 +1006,8 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                         alarmType = "温湿";
                     }else if(value.type == "water"){
                         alarmType = "水浸";
+                    }else if(value.type == "doorMagnet"){
+                        alarmType = "门磁";
                     }
                     mesh.alarmType = alarmType;
                 }else{
@@ -1129,7 +1088,6 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
            
             var time = Date.now() * 0.0005;
             var delta = clock.getDelta();
-    
             /*更新所有标签位置 */
             if(allLabelDiv.length !== 0){
                 objects.forEach(function(e) {

@@ -903,9 +903,9 @@ $scope.uploadModel = function(){//添加新的模型
         dataType: 'json',
         method: 'POST',
         data: {
-            "deviceId": 28,//$scope.deviceInfo.id,
+            "deviceId": 31,//$scope.deviceInfo.id,
             "location": JSON.stringify(JSONBody),
-            "name": "pipeline17",//$scope.deviceInfo.name,
+            "name": "switch1",//$scope.deviceInfo.name,
             "dModelUrl": parameter.url
         },
         success:function(res){
