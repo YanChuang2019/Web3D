@@ -102,5 +102,8 @@ module.exports = {
     'GET /demoupload': async (ctx, next) => {
         ctx.render('upload.html');
     },
+    'GET /camera': async (ctx, next) => {
+        ctx.render('camera.html');
+    },
 
 };

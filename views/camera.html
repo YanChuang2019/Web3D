@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="ThemeStarz">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
+    <link href="../static/assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../static/assets/css/datePicker.css" type="text/css">
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="../static/assets/css/font-awesome.css" rel="stylesheet" type='text/css'/>
+    <link href='../static/assets/css/font-Lobster.css' rel='stylesheet' type='text/css' />
+    <!--<link href="static/assets/css/style.css" rel="stylesheet" type="text/css"/> -->
+    <link href="../static/assets/css/toastr.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/assets/css/jquery-confirm.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/assets/css/pager.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/assets/css/pagination.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="../static/assets/css/video-js.min.css">
+    <title>摄像头页面</title>
+</head>
+    <script src="https://cdn.bootcss.com/angular.js/1.6.9/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.7.8/angular-resource.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/three.js/92/three.min.js"></script>
+    <script src="static/assets/js/bootstrap.js"></script>
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="static/assets/js/jquery-confirm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="static/assets/js/pager.js"></script>
+    <script src="static/assets/js/pagination.js"></script>
+<script type="text/javascript" src="../static/assets/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="../static/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="../static/assets/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/assets/js/smoothscroll.js"></script>
+
+<script type="text/javascript" src="../static/assets/js/jquery.vanillabox-0.1.5.min.js"></script>
+<script type="text/javascript" src="../static/assets/js/retina-1.1.0.min.js"></script>
+<script type="text/javascript" src="../static/assets/js/jquery.raty.min.js"></script>
+<script type="text/javascript" src="../static/assets/js/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript" src="../static/assets/js/jshashtable-2.1_src.js"></script>
+<script type="text/javascript" src="../static/assets/js/jquery.numberformatter-1.2.3.js"></script>
+<script type="text/javascript" src="../static/assets/js/tmpl.js"></script>
+<script type="text/javascript" src="../static/assets/js/jquery.dependClass-0.1.js"></script>
+<script type="text/javascript" src="../static/assets/js/draggable-0.1.js"></script>
+<script type="text/javascript" src="../static/assets/js/jquery.slider.js"></script>
+<script type="text/javascript" src="../static/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="../static/assets/js/fileinput.min.js"></script>
+<script type="text/javascript" src="../static/assets/js/custom.js"></script>
+<script type="text/javascript" src="../static/assets/js/toastr.js"></script>
+<script type="text/javascript" src="../static/common/common.js"></script>
+<script type="text/javascript" src="../static/assets/js/date.js"></script>
+<script type="text/javascript" src="../static/assets/js/datePicker.js"></script>
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script  src="../static/assets/js/camera.js"></script>
+<script src="../static/assets/js/video.min.js" charset="utf-8"></script>
+<script src="../static/assets/js/videojs-contrib-hls.js" charset="utf-8"></script>
+
+<body class="page-homepage navigation-fixed-top page-slider page-slider-search-box" id="page-top" data-spy="scroll" data-target=".navigation" data-offset="90">
+<!-- Wrapper -->
+<div class="wrapper">
+		<button type="button" class="btn btn-default btn-sm"  onclick="window.location.href= '/demo?id=2&siteId=11'" style="margin: 10px;">
+				<span class="glyphicon glyphicon-home"></span> 返回
+		</button>
+    <!-- Search Box -->
+    <div class="search-box-wrapper">
+        <div class="search-box-inner">
+            <div class="container">
+                            <form role="form" id="form-map" class="form-map form-search" method="POST" action="/house/list">
+                                <h3>请选择日期</h3>
+								<input type="text" class="datepicker" />
+								<script type="text/javascript">datepicker.init('.datepicker');</script>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">Search Now</button>
+                                </div><!-- /.form-group -->
+                            </form><!-- /#form-map -->
+            </div><!-- /.container -->
+        </div><!-- /.search-box-inner -->
+    </div>
+    <!-- end Search Box -->
+
+    <!-- Page Content -->
+    <div id="page-content">
+		<section id="new-properties" class="block">
+            <div class="container">
+				<div class="jumbotron"> 
+						<video id="my-player" class="video-js vjs-default-skin" autoplay width="640" height="400"  controls preload="auto" data-setup="{}">
+                            <source src="http://hls01open.ys7.com/openlive/77c99cc69e4443aeaef0c1fd8ac1e5e6.m3u8" type="application/x-mpegURL">
+                        </video>
+				</div>
+                <div class="row">				  
+				</div><!-- /.row-->
+            </div><!-- /.container-->
+        </section><!-- /#new-properties-->
+    </div>
+    <!-- end Page Content -->
+</div>
+<script type="text/javascript">
+    var player = videojs('my-player',{
+      width:640,
+      heigh:400
+    });
+  </script>
+</body>
+</html>

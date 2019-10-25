@@ -37,6 +37,8 @@
         "superagent": "4.0.0-beta.5",
         "url": "0.11.0",
         "uuid": "3.2.1",
+        "video.js": "^7.6.5",
+        "vue-video-player": "^5.0.2",
         "ws": "6.0.0"
     },
     "devDependencies": {

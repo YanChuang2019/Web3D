@@ -845,58 +845,32 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                         transformcontrol.attach(downIntersected);
     
                     }else{
-                         //==================点击设备显示控制面板=========
-                         //外部js代码调用angular内部$scope的变量和函数
-    
-                        var appElement = $('[ng-controller=deviceCtrPanel]');
-                        var $scope = angular.element(appElement).scope();
-    
-                        $.ajax({//调用接口获取设备的详细信息
-                            url:'/api/3d815/getDeviceInfo/'+ deviceId,
-                            type:'GET',
-                            async:false,
-                            success: function(res){
-                                $scope.deviceInfo = res;
-                            },
-                            error: function(e){
-                                console.log(e.message);
-                            }
-                        });
-    
-                        $('#deviceDetail').modal('show');     //控制面板触发仅此一行代码
-                        $scope.showDetail();
-    
-                        
-                        
-    
-                        
-                        //=============================================
-    
-                    // if(nameUid[0].indexOf("窗帘")!=-1){
-                    //     getAjax("/api/3d815/controlCurtain/"+nameUid[1]+'?turn='+nameUid[2], function(response) {
-                            
-                    //         console.log('窗帘结果:'+response);
-                    //         if (response.indexOf("on")!=-1){
-                    //             params.exposure = 0.81;
-                    //         }else if (response.indexOf("off")!=-1){
-                    //             params.exposure = 0.68
-                    //         }else {
-                    //             alert("控制失败！"+response);
-                    //         }
-                    //     });
-                    // }else if (nameUid[0].indexOf("开关")!=-1){
-                    //     getAjax("/api/3d815/controlSwitch/"+nameUid[1]+'?turn='+nameUid[2], function(response) {
-                            
-                    //         console.log('开关结果:'+response);
-                    //         if (response.indexOf("on")!=-1){
-                    //             params.exposure = 0.81;
-                    //         }else if (response.indexOf("off")!=-1){
-                    //             params.exposure = 0.68
-                    //         }else {
-                    //             alert("控制失败！"+response);
-                    //         }
-                    //         });
-                    // }
+                        if(deviceName == "camera1"){
+                            var search = window.location.search;
+                            window.location.href= '/camera'+search;
+                        }else{
+                            //==================点击设备显示控制面板=========
+                            //外部js代码调用angular内部$scope的变量和函数
+        
+                            var appElement = $('[ng-controller=deviceCtrPanel]');
+                            var $scope = angular.element(appElement).scope();
+        
+                            $.ajax({//调用接口获取设备的详细信息
+                                url:'/api/3d815/getDeviceInfo/'+ deviceId,
+                                type:'GET',
+                                async:false,
+                                success: function(res){
+                                    $scope.deviceInfo = res;
+                                },
+                                error: function(e){
+                                    console.log(e.message);
+                                }
+                            });
+        
+                            $('#deviceDetail').modal('show');     //控制面板触发仅此一行代码
+                            $scope.showDetail();
+                        }
+                         
                     }                                                                                             
                     }                                                
         }

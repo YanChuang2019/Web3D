@@ -86,6 +86,22 @@ module.exports = {
         }
     },
 
+    fetchVideoData: async ()=>{
+        try{
+            console.log('axios start')
+            var data = await axios.get('http://120.27.250.108:8080/api/v1/camera/getHistory',{
+                headers: {
+                   'Content-Type': 'application/json',
+                },
+            });
+            var yaoce = data.data;
+            return yaoce;
+        }
+        catch(e){
+            throw e;
+        }
+    },
+
     devicesPaging: async (tid,limit,idOffset,textOffset,access_token) => {
         try{
             if ((idOffset) || (textOffset)){

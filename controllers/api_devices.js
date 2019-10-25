@@ -64,6 +64,14 @@ module.exports = {
             res: res
         });
     },
+    'GET /api/3d815/getvideodata':async (ctx,next) =>{     //历史摄像头数据
+        console.log('fetch start')
+        var res = await devices.fetchVideoData();
+        console.log(res.msg)
+        ctx.rest({
+            res: res.msg
+        });
+    },
     'GET /api/3d815/getDeviceInfo/:id': async (ctx, next) => {    
         var id = ctx.params.id;
 
