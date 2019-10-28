@@ -985,11 +985,25 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                     }
                     mesh.alarmType = alarmType;
                 }else{
-                    materialTest = new THREE.MeshPhongMaterial({
-                        color: 0xFF0000,
-                        specular: 0x111111,
-                        shininess: 200
-                    });
+                    if(value.location == "door1"){
+                        materialTest = new THREE.MeshPhongMaterial({
+                            color: 0xA52A2A,
+                            specular: 0x111111,
+                            shininess: 200
+                        });
+                    }else if(value.location == "camera1"){
+                        materialTest = new THREE.MeshPhongMaterial({
+                            color: 0x00FF00,
+                            specular: 0x111111,
+                            shininess: 200
+                        });
+                    }else{
+                        materialTest = new THREE.MeshPhongMaterial({
+                            color: 0xFF0000,
+                            specular: 0x111111,
+                            shininess: 200
+                        });
+                    }
                     mesh.isAlarm = false;
                     mesh.alarmType = "";
                 }

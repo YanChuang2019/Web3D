@@ -15,6 +15,12 @@ class AddModel{
                     specular: 0x111111,
                     shininess: 200
                 });
+            }else if(name == "door1"){
+                material = new THREE.MeshPhongMaterial({
+                    color: 0xA52A2A,
+                    specular: 0x111111,
+                    shininess: 200
+                });
             }else{
                 material = new THREE.MeshPhongMaterial({
                     color: 0xFF0000,
