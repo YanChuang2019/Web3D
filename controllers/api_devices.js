@@ -64,9 +64,10 @@ module.exports = {
             res: res
         });
     },
-    'GET /api/3d815/getvideodata':async (ctx,next) =>{     //历史摄像头数据
+    'GET /api/3d815/getvideodata/:date':async (ctx,next) =>{     //历史摄像头数据
         console.log('fetch start')
-        var res = await devices.fetchVideoData();
+        var date = ctx.params.date;
+        var res = await devices.fetchVideoData(date);
         console.log(res.msg)
         ctx.rest({
             res: res.msg

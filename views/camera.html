@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="ThemeStarz">
     <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
-    <link href="../static/assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="../static/assets/css/datePicker.css" type="text/css">
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<link href="../static/assets/css/font-awesome.css" rel="stylesheet" type='text/css'/>
@@ -29,11 +28,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="static/assets/js/pager.js"></script>
     <script src="static/assets/js/pagination.js"></script>
-<script type="text/javascript" src="../static/assets/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript" src="../static/assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="../static/assets/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../static/assets/js/smoothscroll.js"></script>
-
 <script type="text/javascript" src="../static/assets/js/jquery.vanillabox-0.1.5.min.js"></script>
 <script type="text/javascript" src="../static/assets/js/retina-1.1.0.min.js"></script>
 <script type="text/javascript" src="../static/assets/js/jquery.raty.min.js"></script>
@@ -71,9 +65,6 @@
                                 <h3>请选择日期</h3>
 								<input type="text" class="datepicker" />
 								<script type="text/javascript">datepicker.init('.datepicker');</script>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-default">Search Now</button>
-                                </div><!-- /.form-group -->
                             </form><!-- /#form-map -->
             </div><!-- /.container -->
         </div><!-- /.search-box-inner -->
@@ -85,9 +76,11 @@
 		<section id="new-properties" class="block">
             <div class="container">
 				<div class="jumbotron"> 
-						<video id="my-player" class="video-js vjs-default-skin" autoplay width="640" height="400"  controls preload="auto" data-setup="{}">
-                            <source src="http://hls01open.ys7.com/openlive/77c99cc69e4443aeaef0c1fd8ac1e5e6.m3u8" type="application/x-mpegURL">
-                        </video>
+						<div class="filmvideo" style="margin: 0 auto;width: 640px;height: 400px;">
+                            <video id="my-player" class="video-js" autoplay width="640" height="400"  controls preload="auto" data-setup="{}">
+                                source src="http://hls01open.ys7.com/openlive/77c99cc69e4443aeaef0c1fd8ac1e5e6.m3u8" type="application/x-mpegURL">
+                            </video>
+						</div>
 				</div>
                 <div class="row">				  
 				</div><!-- /.row-->

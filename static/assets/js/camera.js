@@ -2,7 +2,7 @@ $(document).ready(function(){
 	console.log('ajax');
 	var data=[]
 	$.ajax({
-		url:"/api/3d815/getvideodata",
+		url:"/api/3d815/getvideodata/"+parseInt(new Date().getTime()/1000),
 		type:'GET',
 		async:false,
 		success:function(res){
@@ -18,7 +18,7 @@ $(document).ready(function(){
 	for(i=0;i<data.length;i++){
 		$detail=$(`<ul class="additional-info"></ul>`)
 		for(j=0;j<data[i]['num'];j++){
-			$detail.append($(`<li><header>身份:</header><figure>`+data[i]['who'+j]+`</figure></li>`));
+			$detail.append($(`<li>身份:`+data[i]['who'+j]+`</li>`));
 		}
 		$(".row").append($(`<div class="col-md-3 col-sm-6"><div class="thumbnail"><div class="property-image"><video id="curr-video" width="260" height="196"  controls preload="auto" src="`+'http://120.27.250.108'+data[i]['url']+'.mp4'+`" type="video/mp4"></video></div><div class="caption">
 		<div class="info"><div class="tag price">时间：`+data[i]['time']+`</div><h3>人数：`+data[i]['num']+`</h3></div>`+$detail[0].innerHTML+`</div></div></div>`));
