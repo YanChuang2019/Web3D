@@ -125,7 +125,7 @@
 			if($target.tagName.toLowerCase() !=='td')return;
 			
 			var date = new Date(monthDate.year,monthDate.month-1,$target.dataset.date);
-			
+			renderVideos(date.getTime());
 			$input.value = format(date);
 			$wrapper.classList.remove('ui-datePicker-wrapper-show');
 			isOpen = false;
@@ -133,7 +133,38 @@
 		},false);
 		
 	}
-	
+	function renderVideos(date){
+		var data=[]
+		$.ajax({
+			url:"/api/3d815/getvideodata/"+parseInt(date/1000),
+			type:'GET',
+			async:false,
+			success:function(res){
+				console.log('ajax success');
+				console.log(res.res);
+				data=res.res
+			},
+			error:function(e){
+				console.log('ajax error');
+				console.log(e);
+			}
+		})
+		$(".row").empty();
+		if(data==null){
+			console.log("no videos")
+		}
+		else{
+			$detail=$(`<ul class="additional-info"></ul>`);
+			for(i=0;i<data.length;i++){
+				$detail.empty();
+				for(j=0;j<data[i]['num'];j++){
+					$detail.append($(`<li>身份:`+data[i]['who'+j]+`</li>`));
+				}
+				$(".row").append($(`<div class="col-md-3 col-sm-6"><div class="thumbnail"><div class="property-image"><video id="curr-video" width="260" height="196"  controls preload="auto" src="`+'http://120.27.250.108'+data[i]['url']+'.mp4'+`" type="video/mp4"></video></div><div class="caption">
+				<div class="info"><div class="tag price">时间：`+data[i]['time']+`</div><h3>人数：`+data[i]['num']+`</h3></div>`+$detail[0].innerHTML+`</div></div></div>`));
+			}			
+		}
+	}
 	function format(date){
 		var ret = '';
 		var padding =  function(num){

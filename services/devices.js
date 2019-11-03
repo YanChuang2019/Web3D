@@ -86,14 +86,15 @@ module.exports = {
         }
     },
 
-    fetchVideoData: async ()=>{
+    fetchVideoData: async (date)=>{
         try{
             console.log('axios start')
-            var data = await axios.get('http://120.27.250.108:8080/api/v1/camera/getHistory',{
+            var data = await axios.get('http://120.27.250.108:8080/api/v1/camera/getHistory?time='+date,{
                 headers: {
                    'Content-Type': 'application/json',
                 },
             });
+            console.log(date)
             var yaoce = data.data;
             return yaoce;
         }
