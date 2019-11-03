@@ -847,7 +847,8 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                     }else{
                         if(deviceName == "camera1"){
                             var search = window.location.search;
-                            window.location.href= '/camera'+search;
+                            //window.location.href= '/camera'+search;
+                            window.open('/camera'+search);
                         }else{
                             //==================点击设备显示控制面板=========
                             //外部js代码调用angular内部$scope的变量和函数

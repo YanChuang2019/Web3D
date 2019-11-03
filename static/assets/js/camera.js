@@ -22,7 +22,7 @@ $(document).ready(function(){
 		}
 		$(".row").append($(`<div class="col-md-3 col-sm-6"><div class="thumbnail"><div class="property-image"><video id="curr-video" width="260" height="196"  controls preload="auto" src="`+'http://120.27.250.108'+data[i]['url']+'.mp4'+`" type="video/mp4"></video></div><div class="caption">
 		<div class="info"><div class="tag price">时间：`+data[i]['time']+`</div><h3>人数：`+data[i]['num']+`</h3></div>`+$detail[0].innerHTML+`</div></div></div>`));
-	}  
+	}
 	//var ws = new WebSocket("ws:/120.27.250.108:8080/api/v1/camera/ws");
    //ws.onmessage = function(e){
 	//	var jsonObject = JSON.parse(e.data);
