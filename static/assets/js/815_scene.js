@@ -1,6 +1,7 @@
 
 
 var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = function(){
+var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
     //     alert("websocket连接成功");
     // }
     
@@ -718,7 +719,43 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
         (index >= colors.length) && (index = 0);
         return colors[index++];
         };
-                    
+        
+        websocket2.onmessage = function(e){//websocket用来根据传来的数据修改模型的特征
+            //alert("接收到消息：" + e.data);
+            var jsonObject = JSON.parse(e.data);
+            var msgType = jsonObject.type;
+            var deviceLocation = jsonObject.location;
+            var deviceState = jsonObject.state;
+            var obj = {type:msgType,location:deviceLocation,state:deviceState};
+            var mark = 0;
+            objects.forEach(function(e){
+                if(e.deviceName == deviceLocation){
+                    mark = 1;
+                }
+            })
+            if(mark == 1){
+                if(msgType == "camera"){
+                    deviceMap.set(obj.location,obj);
+                    if(deviceState == "1" ){
+                        new jBox('Notice', {
+                            attributes: {
+                              x: 'right',
+                              y: 'bottom'
+                            },
+                            stack: false,
+                            animation: {
+                              open: 'tada',
+                              close: 'zoomIn'
+                            },
+                            color: getColor(),
+                            title: '站点：' + siteId + '异常',
+                            content: "摄像头检测到异常"
+                          });
+                    }
+                }
+            }
+        }
+
         websocket.onmessage = function(e){//websocket用来根据传来的数据修改模型的特征
             //alert("接收到消息：" + e.data);
             var jsonObject = JSON.parse(e.data);
@@ -899,7 +936,11 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                     var isAlarm = intersected.isAlarm;
                     var alarmType = intersected.alarmType;
                     if(isAlarm){
+                        if(deviceName == "camera1"){
+                            ToolTip.showtip(event,"摄像头异常");
+                        }else{
                             ToolTip.showtip(event,"设备名称:"+deviceName+"<br>报警类型:" + alarmType);
+                        }
                     }else{
                             ToolTip.showtip(event, "设备名称:"+deviceName+"<br>设备ID:"+deviceId+"<br>标签:"+label);
                     }
@@ -985,7 +1026,7 @@ var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = 
                     }
                     mesh.alarmType = alarmType;
                 }else{
-                    if(value.location == "door1"){
+                    if(value.location.substr(0,4) == "wall"){
                         materialTest = new THREE.MeshPhongMaterial({
                             color: 0xA52A2A,
                             specular: 0x111111,
