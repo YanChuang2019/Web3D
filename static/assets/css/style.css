@@ -12,7 +12,8 @@ body {
 #info {
     color:#fff;
     position: absolute;
-    top: 0px; width: 100%;
+    bottom: 0px; 
+    width: 100%;
     padding: 5px;
     margin: 0px;
 }
