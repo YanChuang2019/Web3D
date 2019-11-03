@@ -1,6 +1,6 @@
 
 
-var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");// websocket.onopen = function(){
+var websocket = new WebSocket("ws://127.0.0.1:9999/ws");// websocket.onopen = function(){
 var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
     //     alert("websocket连接成功");
     // }
@@ -807,6 +807,15 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
                       });
                 }else{
                     deviceMap.set(obj.location,obj);
+                    let pipelineLocation  = parseInt(deviceLocation.substr(8));
+                    let pipelineType;
+                    if(pipelineLocation<13){
+                        pipelineType="水管报警，请联系相关修理人员！"
+                    }else if(pipelineLocation>=13){
+                        pipelineType="烟管报警，请联系相关修理人员！"
+                    }else{
+                        pipelineType=""
+                    }
                     if(deviceState == "1" ){
                         new jBox('Notice', {
                             attributes: {
@@ -820,7 +829,7 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
                             },
                             color: getColor(),
                             title: '站点：' + siteId + '异常',
-                            content: "异常设备:"+deviceLocation+"\n报警类型:" + msgType + '.'
+                            content: "异常设备:"+deviceLocation+"<br>报警类型:" + msgType + "<br>" + pipelineType
                           });
                     }
                 }
@@ -1026,7 +1035,7 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
                     }
                     mesh.alarmType = alarmType;
                 }else{
-                    if(value.location.substr(0,4) == "wall"){
+                    if(value.location.substr(0,4) == "wall" || value.location.substr(0,4) == "door"){
                         materialTest = new THREE.MeshPhongMaterial({
                             color: 0xA52A2A,
                             specular: 0x111111,
