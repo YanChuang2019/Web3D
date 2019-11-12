@@ -1,6 +1,6 @@
 
 
-var websocket = new WebSocket("ws://127.0.0.1:9999/ws");// websocket.onopen = function(){
+var websocket = new WebSocket("ws://47.104.8.164:8800/ws");// websocket.onopen = function(){
 var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
     //     alert("websocket连接成功");
     // }

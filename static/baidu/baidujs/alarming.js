@@ -1,5 +1,5 @@
 
-var ws = new WebSocket("ws://127.0.0.1:9999/ws"); 
+var ws = new WebSocket("ws://47.104.8.164:8800/ws"); 
 var ws2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
 var colors = ['red', 'green', 'blue', 'yellow'], index = 0;
 var getColor = function () {
