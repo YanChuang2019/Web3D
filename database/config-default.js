@@ -2,9 +2,9 @@
 var config = {
     dialect: 'mysql',
     database: 'BUPT_IOT',
-    username: 'cjx',
-    password: 'cjx123!@#',
-    host: '94.191.67.48',
+    username: 'root',
+    password: 'root123456',
+    host: '10.112.12.81',
     port: 3306
 };
 // var config = {
