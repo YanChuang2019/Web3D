@@ -3,8 +3,8 @@ var config = {
     dialect: 'mysql',
     database: 'BUPT_IOT',
     username: 'root',
-    password: 'root123456',
-    host: '10.112.12.81',
+    password: '123',
+    host: '10.108.218.191', // 实验室GPU
     port: 3306
 };
 // var config = {
