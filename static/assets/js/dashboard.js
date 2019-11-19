@@ -2,8 +2,12 @@ window.temHistory=[];
 window.humiHistory=[];
 const MAX={'temperature':49,'humidity':50};
 const MIN={'temperature':-20,'humidity':10};
-document.onreadystatechange = function(){
-    var websocket = new WebSocket("ws:/47.104.8.164:8800/ws");
+//document.onreadystatechange = function(){
+$(document).ready(function(){
+    console.log('去连接');
+    var websocket = new WebSocket("ws://47.104.8.164:8800/ws");
+    console.log('连接后');
+    console.log(websocket);
     var temfun=drawGauge('temGauge','温湿度传感器','温度gauge',0,'温度','℃');
     var humifun=drawGauge('humiGauge','温湿度传感器','湿度gauge',0,'湿度','%');
     var temhumifun=drawLine('uid4');
@@ -15,7 +19,7 @@ document.onreadystatechange = function(){
       // drawOtherErrorLine();
     //},100000);
     websocket.onmessage = function(e){
-        //alert("接收到消息：" + e.data);
+        console.log("接收到消息：" + e.data);
         var jsonObject = JSON.parse(e.data);
         var msgType = jsonObject.type;
         if(msgType==='water'||msgType==='smoke'||msgType==='infrared'){
@@ -32,7 +36,7 @@ document.onreadystatechange = function(){
             }
         }
     }
-}
+})
 
 function drawGauge(container, titleName, seriesName, seriesData,dataName,dataUnit){
     var myTemGauge = echarts.init(document.getElementById(container));
@@ -282,11 +286,11 @@ function drawLine(id) {
 function drawTemHumiErrorLine(id){
     var temHumiError = echarts.init(document.getElementById('temHumiErrorLine'));
     var res=fetchErrorPointData(temHistory,'temperature');
-    var xDataA=['2019-10-15  10:51:18'].concat(res['x']);
-    var seriesDataA=[99].concat(res['y']);
+    var xDataA=['2019-10-15  10:51:18','2019-10-17  10:51:18','2019-10-25  10:51:18','2019-11-5  10:51:18'].concat(res['x']);
+    var seriesDataA=[99,90,80,85].concat(res['y']);
     res=fetchErrorPointData(humiHistory,'humidity');
     var xDataB=res['x'];
-    var seriesDataB=[90].concat(res['y']);
+    var seriesDataB=[90,80,70,82].concat(res['y']);
     temHumiErrorOption = {
         toolbox: { 
             show: true,
@@ -533,7 +537,13 @@ function drawOtherErrorLine(){
     });
     var xData=[];
     var seriesDataA=[];
-    xData=xData.concat(xDataA).concat(xDataB).concat(xDataC);//concat(['2019-10-14  10:39:12A','2019-10-14  10:38:38B','2019-10-14  10:47:17C']);
+    seriesDataA.push('烟感异常');
+    seriesDataA.push('水浸异常');
+    seriesDataA.push('烟感异常');
+    seriesDataA.push('烟感异常');
+    seriesDataA.push('红外异常');
+    seriesDataA.push('水浸异常');
+    xData=xData.concat(xDataA).concat(xDataB).concat(xDataC).concat(['2019-10-14  10:39:12A','2019-10-14  10:38:38B','2019-10-14  10:47:17C','2019-10-14  10:39:12A','2019-10-25  10:39:12A','2019-11-5  10:39:12A']);
     xData=xData.sort();
     for ( var i = 0; i <xData.length; i++){
         if(xData[i][xData[i].length-1]==='A'){
@@ -714,7 +724,7 @@ function fetchOtherErrorPointData(alarmHistory,surpervisionHistory,dataType){
     var timeArray=[];
     for ( var i = 0; i <alarmHistory.length; i++){
         if(alarmHistory[i]['key']==='alarm'&&surpervisionHistory[i]['key']==='surpervision'&&(alarmHistory[i]['value']==1&&surpervisionHistory[i]['value']==0)){
-            timeArray.push(resData[i]['ts']);
+            timeArray.push(alarmHistory[i]['ts']);
         }
     }
     for ( var i = 0; i <timeArray.length; i++){
