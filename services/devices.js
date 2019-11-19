@@ -30,7 +30,7 @@ function getDeviceId(id){
             deviceId = "7b99a6f0-90d2-11e9-b21a-2fa071b4c282";   //烟感
             break;
         case 'uid7':
-            deviceId = "311057b0-90d1-11e9-b21a-2fa071b4c282";   //水浸
+            deviceId = "92c639f0-067b-11ea-8ed8-9b8a84d51816";   //新的水浸
             break;
         case 'uid8':
             deviceId = "f6289960-3b02-11e9-8fc2-67fbc94ac784";   //红外
