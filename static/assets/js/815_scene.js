@@ -302,6 +302,9 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
                 });
                 
     
+            },
+            '☆继续提示': function() {
+                NOTNOTICE = false;
             }
         };
         
@@ -704,6 +707,7 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
             gui.add(newcontrols,'显示/关闭所有标签');
             gui.add(newcontrols,'☆返回首页');
             gui.add(newcontrols,'✔保存场景设置');
+            gui.add(newcontrols,'☆继续提示');
             gui.open();
         }/////////////////////////////////////////////
         var baseColor = 0xFF0000;
@@ -719,6 +723,7 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
         (index >= colors.length) && (index = 0);
         return colors[index++];
         };
+
         
         websocket2.onmessage = function(e){//websocket用来根据传来的数据修改模型的特征
             //alert("接收到消息：" + e.data);
@@ -755,6 +760,8 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
                 }
             }
         }
+
+        var NOTNOTICE = false;
 
         websocket.onmessage = function(e){//websocket用来根据传来的数据修改模型的特征
             //alert("接收到消息：" + e.data);
@@ -810,14 +817,14 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
                     let pipelineLocation  = parseInt(deviceLocation.substr(8));
                     let pipelineType;
                     if(pipelineLocation<13){
-                        pipelineType="水管报警，请联系相关修理人员！"
+                        pipelineType="水管报警，请联系修理人员！(62282230)"
                     }else if(pipelineLocation>=13){
-                        pipelineType="烟管报警，请联系相关修理人员！"
+                        pipelineType="烟管报警，请联系修理人员！(62282231)"
                     }else{
                         pipelineType=""
                     }
-                    if(deviceState == "1" ){
-                        new jBox('Notice', {
+                    if(deviceState == "1" && !NOTNOTICE ){
+                        var noticeBox = new jBox('Notice', {
                             attributes: {
                               x: 'right',
                               y: 'bottom'
@@ -828,7 +835,7 @@ var websocket2 = new WebSocket("ws://120.27.250.108:8080/api/v1/camera/ws");
                               close: 'zoomIn'
                             },
                             color: getColor(),
-                            title: '站点：' + siteId + '异常',
+                            title: '站点：' + siteId + '异常' + `<span class='notNotice' onclick="NOTNOTICE = true">不再提示</span>`,
                             content: "异常设备:"+deviceLocation+"<br>报警类型:" + msgType + "<br>" + pipelineType
                           });
                     }

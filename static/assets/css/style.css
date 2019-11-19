@@ -433,3 +433,7 @@ body {
     text-align: center;
     display: inline-block;
 }
+
+.notNotice {
+    float: right;
+}
