@@ -18,7 +18,7 @@
         "url": "https://github.com/michaelliao/learn-javascript.git"
     },
     "dependencies": {
-        "axios": "^0.18.1",
+        "axios": "^0.21.1",
         "cookies": "0.7.1",
         "koa": "^2.8.2",
         "koa-better-body": "3.1.13",
