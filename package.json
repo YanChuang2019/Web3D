@@ -40,7 +40,7 @@
         "uuid": "3.2.1",
         "video.js": "^7.6.5",
         "vue-video-player": "^5.0.2",
-        "ws": "6.0.0"
+        "ws": "7.4.6"
     },
     "devDependencies": {
         "webpack": "^2.2.0-rc.1"
