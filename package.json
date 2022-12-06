@@ -23,7 +23,7 @@
         "koa": "^2.8.2",
         "koa-better-body": "3.1.13",
         "koa-body-parsers": "3.1.0",
-        "koa-bodyparser": "3.2.0",
+        "koa-bodyparser": "4.3.0",
         "koa-router": "7.0.0",
         "koa-session": "5.9.0",
         "mime": "1.4.1",
