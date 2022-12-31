@@ -43,6 +43,6 @@
         "ws": "6.0.0"
     },
     "devDependencies": {
-        "webpack": "^2.2.0-rc.1"
+        "webpack": "^5.75.0"
     }
 }
